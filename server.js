@@ -46,7 +46,27 @@ server.get('/update.html',function(req,res){
 
 // 로그인 성공 시 메인 화면
 server.post('/login',function(req,res){
-    res.sendFile(__dirname+'/list.html');
+    const id=req.body.loginId;
+    const pw = req.body.loginPw;
+    
+    var find = "SELECT id, pw FROM user WHERE id = ? AND pw = ?";
+    var paramsF=[id, pw];
+
+    connection.query(find, paramsF, function(err, result){
+        if(err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+        // result는 결과셋이 아닌 객체 또는 배열
+        if((result.length === 0)){
+            console.log("아이디 또는 비밀번호를 다시 확인해주세요.");
+        }
+        else {
+            console.log("로그인 성공!");
+            res.sendFile(__dirname+'/list.html');
+        }
+    });
 })
 
 // 회원가입 성공 시 로그인 화면
