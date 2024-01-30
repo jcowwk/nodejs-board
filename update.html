@@ -5,7 +5,16 @@
     <title>nodejs board 수정 화면</title>
 </head>
 <body>
-    <h2>nodejs 글 수정 화면</h2>
-    <button id="updateBtn" onclick="location.href='list.html'">완료</button>
+    <h2>MODIFY</h2>
+    <form id=updateForm action="/update" method="post">
+        <label>title:</label>
+        <input id="updateTitle" name="updateTitle" type="text"><br>
+
+        <label>contents:</label>
+        <input id="updateContents" name="updateContents" type="text"><br>
+
+        <input type="submit" value="수정">
+        <input type="submit" value="취소">
+    </form>
 </body>
 </html>

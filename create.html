@@ -5,10 +5,17 @@
     <title>nodejs 글 작성 화면</title>
 </head>
 <body>
-    <h2>nodejs 글 작성 화면</h2>
-    <form>
+    <h2>WRITE</h2>
+    <hr>
+    <form id=createForm action="/create" method="post">
+        <label>title:</label>
+        <input id="createTitle" name="createTitle" type="text"><br>
+
+        <label>contents:</label>
+        <input id="createContents" name="createContents" type="text"><br>
 
         <input type="submit" value="등록">
+        <input type="submit" value="취소">
     </form>
 </body>
 </html>
