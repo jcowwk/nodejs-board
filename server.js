@@ -7,10 +7,6 @@ const connection = require('./database');
 
 const server=express();
 
-server.engine('view engine','ejs');
-// views 폴더 위치 설정
-server.set('views', __dirname);
-
 // 세션 사용 설정
 server.use(session({
     resave: false,
@@ -41,7 +37,7 @@ server.get('/join.html',function(req,res){
 })
 
 // 메인 화면
-server.get('/list.ejs',function(req,res){
+server.get('/list.html',function(req,res){
     // 세션 ID를 HTML에 전달
     res.sendFile('list', { loginId: req.session.loginId });
 })
@@ -86,8 +82,7 @@ server.post('/login',function(req,res){
                 console.log(req.session.loginId);
             }
             console.log("로그인 성공!");
-            res.redirect('/list.ejs');
-            //res.sendFile(__dirname+'/list.html');
+            res.redirect('/list.html');
         }
     });
 })
