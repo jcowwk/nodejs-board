@@ -14,9 +14,9 @@ server.use(session({
     secret: 'abcdefg'
 }))
 
-// JSON 형태의 여청 body 파싱하는 미들웨어 사용
-server.use(bodyParser.json());
+// JSON 형태의 body 파싱하는 미들웨어 사용
 server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
 
 // 정적 파일 라우팅
 server.use(express.static(__dirname));
@@ -38,8 +38,7 @@ server.get('/join.html',function(req,res){
 
 // 메인 화면
 server.get('/list.html',function(req,res){
-    // 세션 ID를 HTML에 전달
-    res.sendFile('list', { loginId: req.session.loginId });
+    res.sendFile(__dirname+'/list.html');
 })
 
 // 글 작성 화면
@@ -125,7 +124,24 @@ server.post('/join',function(req,res){
 
 // 글 작성 완료 시 메인 화면
 server.post('/create',function(req,res){
-    res.sendFile(__dirname+'/list.html');
+    const loginId=req.session.loginId;
+
+    const title=req.body.createTitle;
+    const contents=req.body.createContents;
+
+    var sql = "INSERT INTO board (title, contents, user_id) VALUES (?, ?, ?)";
+    var params=[title, contents, loginId];
+
+    connection.query(sql, params, function (err, result) {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+
+        console.log("글 작성이 완료되었습니다!");
+        res.redirect('/list.html');
+    });
 })
 
 // 수정 완료 시 읽기 화면
