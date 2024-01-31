@@ -1,13 +1,29 @@
 // express 모듈을 express 변수에 담기
 const express=require('express');
 const session = require('express-session');
+const bodyParser = require('body-parser');
+const ejs = require('ejs');
 const connection = require('./database');
 
 const server=express();
 
+server.engine('view engine','ejs');
+// views 폴더 위치 설정
+server.set('views', __dirname);
+
+// 세션 사용 설정
+server.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: 'abcdefg'
+}))
+
 // JSON 형태의 여청 body 파싱하는 미들웨어 사용
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+
+// 정적 파일 라우팅
+server.use(express.static(__dirname));
 
 // 검색 시 나오는 화면
 server.get('/',function(req,res){
@@ -25,8 +41,9 @@ server.get('/join.html',function(req,res){
 })
 
 // 메인 화면
-server.get('/list.html',function(req,res){
-    res.sendFile(__dirname+'/list.html');
+server.get('/list.ejs',function(req,res){
+    // 세션 ID를 HTML에 전달
+    res.sendFile('list', { loginId: req.session.loginId });
 })
 
 // 글 작성 화면
@@ -63,8 +80,14 @@ server.post('/login',function(req,res){
             console.log("아이디 또는 비밀번호를 다시 확인해주세요.");
         }
         else {
+            if(result && result.length > 0){
+                var userId=result[0].id;
+                req.session.loginId = userId;
+                console.log(req.session.loginId);
+            }
             console.log("로그인 성공!");
-            res.sendFile(__dirname+'/list.html');
+            res.redirect('/list.ejs');
+            //res.sendFile(__dirname+'/list.html');
         }
     });
 })
