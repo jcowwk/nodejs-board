@@ -17,10 +17,10 @@
         
             <label>contents: <%= item.contents %></label><br>
             <hr>
-        <% }); %>
     </div>
 
-    <button id="updateBtn" onclick="location.href='/update.html'">update</button>
+    <button id="updateBtn" onclick="location.href='/update?boardid=<%= item.boardid %>'">update</button>
+    <% }); %>
     <button id="deleteBtn">delete</button>
     <button id="backBtn" onclick="location.href='/list'">back</button>
 </body>

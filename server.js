@@ -76,7 +76,21 @@ server.get('/read',function(req,res){
 })
 
 // 수정 화면
-server.get('/update.html',function(req,res){
+server.get('/update',function(req,res){
+    // 게시글 번호 쿼리로 받아오기
+    const boardid=req.query.boardid;
+
+    const sql = "SELECT boardid FROM board WHERE boardid = ?";
+
+    connection.query(sql, [boardid], function(error, result) {
+        if (error) {
+            console.error(error);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+
+        res.render('update', { items: result });
+    });
 })
 
 // 로그인 성공 시 메인 화면
@@ -169,6 +183,23 @@ server.post('/create',function(req,res){
 
 // 수정 완료 시 읽기 화면
 server.post('/update',function(req,res){
+    const boardid=req.query.boardid;
+    const loginId=req.session.loginId;
+    const title=req.body.updateTitle;
+    const contents=req.body.updateContents;
+    
+    console.log(boardid);
+
+    const sql = "UPDATE board SET title=?, contents=?, user_id=? WHERE boardid=?";
+
+    connection.query(sql, [title, contents, loginId, boardid], function(error, result) {
+        if (error) {
+            console.error(error);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+        res.redirect('/read?boardid=' + boardid);
+    });
 })
 
 server.listen(3000);

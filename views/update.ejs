@@ -5,9 +5,9 @@
     <title>nodejs board 수정 화면</title>
 </head>
 <body>
-    <h2>MODIFY</h2>
+    <h2>UPDATE</h2>
     <hr>
-    <form id=updateForm action="/update" method="post">
+    <form id=updateForm action="/update?boardid=<%= items[0].boardid %>" method="post">
         <label>title:</label>
         <input id="updateTitle" name="updateTitle" type="text"><br>
 
@@ -16,6 +16,6 @@
 
         <input type="submit" value="ok">
     </form>
-    <button id="backBtn" onclick="location.href='/read.html'">back</button>
+    <button id="backBtn" onclick="location.href='/read'">back</button>
 </body>
 </html>
