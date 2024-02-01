@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>contents</title>
+</head>
+<body>
+    <h2>CONTENTS</h2>
+    <hr>
+    <div>
+        <% items.forEach(function(item){ %>
+            <label>id: <%= item.user_id %></label><br>
+            <hr>
+        
+            <label>title: <%= item.title %></label><br>
+            <hr>
+        
+            <label>contents: <%= item.contents %></label><br>
+            <hr>
+        <% }); %>
+    </div>
+
+    <button id="updateBtn" onclick="location.href='/update.html'">update</button>
+    <button id="deleteBtn">delete</button>
+    <button id="backBtn" onclick="location.href='/list'">back</button>
+</body>
+</html>

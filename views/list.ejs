@@ -17,10 +17,10 @@
           </tr>
         </thead>
         <tbody>
-          <% items.forEach(function(item, index) { %>
+          <% items.forEach(function(item) { %>
             <tr>
-              <td><%= item.boardid %></td>
-              <td><a href='/read.html'><%= item.title %></a></td>
+              <td id="boardid" name="boardid"><%= item.boardid %></td>
+              <td><a href='/read?boardid=<%= item.boardid %>'><%= item.title %></a></td>
               <td><%= item.user_id %></td>
             </tr>
           <% }); %>
