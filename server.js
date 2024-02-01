@@ -187,8 +187,6 @@ server.post('/update',function(req,res){
     const loginId=req.session.loginId;
     const title=req.body.updateTitle;
     const contents=req.body.updateContents;
-    
-    console.log(boardid);
 
     const sql = "UPDATE board SET title=?, contents=?, user_id=? WHERE boardid=?";
 
@@ -199,6 +197,23 @@ server.post('/update',function(req,res){
             return;
         }
         res.redirect('/read?boardid=' + boardid);
+    });
+})
+
+server.get('/delete',function(req,res){
+    const boardid=req.query.boardid;
+
+    console.log(boardid);
+
+    const sql = "DELETE FROM board WHERE boardid=?";
+
+    connection.query(sql, [boardid], function(error, result){
+        if (error){
+            console.log(error);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+        res.redirect('list');
     });
 })
 
