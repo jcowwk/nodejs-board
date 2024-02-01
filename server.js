@@ -38,7 +38,18 @@ server.get('/join.html',function(req,res){
 
 // 메인 화면
 server.get('/list.html',function(req,res){
-    res.sendFile(__dirname+'/list.html');
+
+    var find = "SELECT * FROM board";
+
+    connection.query(find, function(err, result){
+        if(err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+
+        res.redirect('/list.html');
+    });
 })
 
 // 글 작성 화면
@@ -146,7 +157,24 @@ server.post('/create',function(req,res){
 
 // 수정 완료 시 읽기 화면
 server.post('/update',function(req,res){
-    res.sendFile(__dirname+'/read.html');
-})
+    const loginId=req.session.loginId;
 
+    const title=req.body.createTitle;
+    const contents=req.body.createContents;
+    const num=req.body.boardId;
+
+    var sql = "UPDATE board SET title = ?, contents = ? WHERE id = ? AND user_id = ?";
+    var params=[title, contents, num, loginId];
+
+    connection.query(sql, params, function (err, result) {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+
+        console.log("글 수정이 완료되었습니다!");
+        res.redirect('/read.html');
+    });
+})
 server.listen(3000);
