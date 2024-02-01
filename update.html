@@ -8,7 +8,6 @@
     <h2>MODIFY</h2>
     <hr>
     <form id=updateForm action="/update" method="post">
-        <label id="boardId" name="boardId">글 번호:</label>
         <label>title:</label>
         <input id="updateTitle" name="updateTitle" type="text"><br>
 
@@ -16,7 +15,7 @@
         <input id="updateContents" name="updateContents" type="text"><br>
 
         <input type="submit" value="ok">
-        <input type="submit" value="back">
     </form>
+    <button id="backBtn" onclick="location.href='/read.html'">back</button>
 </body>
 </html>

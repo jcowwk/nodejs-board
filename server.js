@@ -7,6 +7,8 @@ const connection = require('./database');
 
 const server=express();
 
+server.set('view engine', 'ejs');
+
 // 세션 사용 설정
 server.use(session({
     resave: false,
@@ -37,18 +39,16 @@ server.get('/join.html',function(req,res){
 })
 
 // 메인 화면
-server.get('/list.html',function(req,res){
+server.get('/list',function(req,res){
+    const sql="SELECT * FROM board";
 
-    var find = "SELECT * FROM board";
-
-    connection.query(find, function(err, result){
-        if(err) {
-            console.error(err);
+    connection.query(sql, function(err, result){
+        if(err){
+            console.error(error);
             res.status(500).send("Internal Server Error");
             return;
         }
-
-        res.redirect('/list.html');
+        res.render('list', { items: result });
     });
 })
 
@@ -92,7 +92,7 @@ server.post('/login',function(req,res){
                 console.log(req.session.loginId);
             }
             console.log("로그인 성공!");
-            res.redirect('/list.html');
+            res.redirect('/list');
         }
     });
 })
@@ -151,7 +151,7 @@ server.post('/create',function(req,res){
         }
 
         console.log("글 작성이 완료되었습니다!");
-        res.redirect('/list.html');
+        res.redirect('/list');
     });
 })
 
@@ -177,4 +177,5 @@ server.post('/update',function(req,res){
         res.redirect('/read.html');
     });
 })
+
 server.listen(3000);

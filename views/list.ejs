@@ -6,26 +6,27 @@
 </head>
 <body>
     <h2>MAIN</h2>
-    <div id="username" name="username"></div>
     <hr>
+
     <table class="list">
         <thead>
           <tr>
-            <th>num</th>
+            <th>boardid</th>
             <th>title</th>
-            <th>username</th>
-            <th>views</th>
+            <th>id</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td><a href='/read.html'>title</td>
-            <td>username</td>
-            <td>views</td>
-          </tr>
+          <% items.forEach(function(item, index) { %>
+            <tr>
+              <td><%= item.boardid %></td>
+              <td><a href='/read.html'><%= item.title %></a></td>
+              <td><%= item.user_id %></td>
+            </tr>
+          <% }); %>
         </tbody>
-      </table>
+    </table>
+
     <button id="createBtn" onclick="location.href='/create.html'">create</button>
     <button id="logoutBtn" onclick="location.href='/login.html'">logout</button>
 </body>
